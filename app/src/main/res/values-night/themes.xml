@@ -1,0 +1,5 @@
+<resources>
+    <!-- The actual Material3 color scheme is applied by PokedexTheme in Compose;
+         this manifest theme only needs to exist to avoid a system flash before Compose loads. -->
+    <style name="Theme.Pokedex" parent="android:Theme.Material.NoActionBar" />
+</resources>

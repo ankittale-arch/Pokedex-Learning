@@ -1,0 +1,130 @@
+[versions]
+agp = "9.0.1"
+kotlin = "2.3.10"
+ksp = "2.3.10"
+
+androidxCore = "1.17.0"
+androidxActivity = "1.12.4"
+androidxLifecycle = "2.10.0"
+# Pinned to 1.1.7, not the newer 1.2.0: 1.2.0 regressed 16 KB page-size alignment in
+# libdatastore_shared_counter.so (unfixed upstream as of this writing); 1.1.7 is the last
+# known-good release for 16 KB compatibility.
+androidxDataStore = "1.1.7"
+androidxNavigation = "2.9.7"
+androidxRoom = "2.8.4"
+androidxHiltNavigationCompose = "1.3.0"
+androidxProfileInstaller = "1.4.1"
+androidxMacrobenchmark = "1.4.1"
+androidxUiAutomator = "2.3.0"
+androidxTestJunit = "1.2.1"
+androidxTestEspresso = "3.6.1"
+
+androidxCompose = "1.10.3"
+androidxComposeMaterial3 = "1.4.0"
+androidxComposeMaterialIconsCore = "1.7.8"
+# Compose 1.10.3 transitively constrains this to 1.0.1, which isn't 16 KB page-size aligned;
+# overridden directly to the fixed 1.1.0 release in app/build.gradle.kts.
+androidxGraphicsPath = "1.1.0"
+
+coil = "2.7.0"
+androidxPalette = "1.0.0"
+
+hilt = "2.59.1"
+retrofit = "3.0.0"
+okhttp = "5.3.2"
+coroutines = "1.10.2"
+kotlinxSerializationJson = "1.10.0"
+
+spotless = "6.25.0"
+baselineProfile = "1.5.0-alpha03"
+
+junit = "4.13.2"
+truth = "1.4.5"
+turbine = "1.2.1"
+mockitoCore = "5.11.0"
+mockitoKotlin = "6.1.0"
+javaxInject = "1"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
+
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxCompose" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "androidxCompose" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "androidxCompose" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxCompose" }
+androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "androidxComposeMaterialIconsCore" }
+androidx-graphics-path = { group = "androidx.graphics", name = "graphics-path", version.ref = "androidxGraphicsPath" }
+
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", version.ref = "androidxPalette" }
+
+androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileInstaller" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "androidxMacrobenchmark" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidxUiAutomator" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestJunit" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxTestEspresso" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+
+retrofit-bom = { group = "com.squareup.retrofit2", name = "retrofit-bom", version.ref = "retrofit" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit" }
+retrofit-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization" }
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver" }
+
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
+javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javaxInject" }
+
+# used only inside build-logic to declare plugin dependencies on the classpath
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+hilt-gradlePlugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+baselineprofile = { id = "androidx.baselineprofile", version.ref = "baselineProfile" }
+
+# our own convention plugins, registered by build-logic/convention
+pokedex-android-application = { id = "pokedex.android.application" }
+pokedex-android-application-compose = { id = "pokedex.android.application.compose" }
+pokedex-android-library = { id = "pokedex.android.library" }
+pokedex-android-library-compose = { id = "pokedex.android.library.compose" }
+pokedex-android-feature = { id = "pokedex.android.feature" }
+pokedex-android-hilt = { id = "pokedex.android.hilt" }
+pokedex-spotless = { id = "pokedex.spotless" }
