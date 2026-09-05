@@ -49,6 +49,17 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Unit tests
+        run: ./gradlew test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: "**/build/reports/tests/"
+          if-no-files-found: warn
+
       - name: Decode release keystore
         if: env.BUILD_TYPE == 'release' && env.HAS_RELEASE_KEYSTORE == 'true'
         env:
