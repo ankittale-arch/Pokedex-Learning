@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -216,6 +217,21 @@ private fun DetailsPage(
     )
 }
 
+/** The detail pane of a tablet's side-by-side list-detail layout (see `PokedexListDetailScreen`
+ * in `app`) - the same content a full-screen [DetailsRoute] page shows, minus the pager, back
+ * arrow, and top/bottom scrims, since the list pane sitting next to it is the only "back" a
+ * permanently visible two-pane layout needs. */
+@Composable
+fun DetailsPaneRoute(
+    pokemonName: String,
+    modifier: Modifier = Modifier,
+    viewModel: DetailsViewModel = hiltViewModel(key = pokemonName),
+) {
+    LaunchedEffect(pokemonName) { viewModel.loadPokemon(pokemonName) }
+    val uiState by viewModel.uiState.collectAsState()
+    DetailsScreen(uiState = uiState, onRetry = viewModel::retry, modifier = modifier)
+}
+
 @Composable
 internal fun DetailsScreen(
     uiState: DetailsUiState,
@@ -282,61 +298,72 @@ private fun PokemonDetails(
         SideEffect { onBackgroundColorChanged(backgroundColor) }
     }
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             // Painted here, before any inset/padding below, so it fills the entire box - all
-            // the way behind the transparent status bar and the floating back arrow above it.
-            .background(backgroundColor)
-            .verticalScroll(rememberScrollState())
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .padding(top = 48.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            // the way behind the transparent status bar and the floating back arrow above it -
+            // regardless of how narrow the content column below ends up on a wide screen.
+            .background(backgroundColor),
     ) {
-        // Same 200dp width as the image below, so the arc's tips line up with its left/right
-        // edges - its height follows automatically to keep the curve a true circle. Derived
-        // fresh from this page's own `pokemon` every recomposition, so swiping the pager to a
-        // different Pokemon always shows that page's own CP - never a stale one.
-        PokedexCpArc(cp = pokemon.calculateCp(), modifier = Modifier.width(200.dp))
-        PokedexAsyncImage(
-            imageUrl = pokemon.imageUrl,
-            contentDescription = pokemon.name,
-            containerColor = Color.Transparent,
-            onImageLoaded = { bitmap ->
-                scope.launch {
-                    val color = withContext(Dispatchers.Default) { extractDominantColor(bitmap) }
-                    dominantColor = color
-                }
-            },
-            modifier = Modifier.size(200.dp),
-        )
-        Text(text = "#${pokemon.id}", style = MaterialTheme.typography.bodyMedium)
-        Text(text = pokemon.name.capitalizeWords(), style = MaterialTheme.typography.titleLarge)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            pokemon.types.forEach { type -> PokemonTypeChip(type) }
-        }
-        if (pokemon.stats.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = "Base stats",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.fillMaxWidth(),
+        // Capped and centered on wide screens (tablets) so stat bars, chips, and text don't
+        // stretch edge-to-edge into an unreadably wide single column - on a phone-width screen
+        // this max width never kicks in and fillMaxWidth behaves exactly as before.
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .widthIn(max = 600.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .padding(top = 48.dp, start = 24.dp, end = 24.dp, bottom = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            // Same 200dp width as the image below, so the arc's tips line up with its left/right
+            // edges - its height follows automatically to keep the curve a true circle. Derived
+            // fresh from this page's own `pokemon` every recomposition, so swiping the pager to a
+            // different Pokemon always shows that page's own CP - never a stale one.
+            PokedexCpArc(cp = pokemon.calculateCp(), modifier = Modifier.width(200.dp))
+            PokedexAsyncImage(
+                imageUrl = pokemon.imageUrl,
+                contentDescription = pokemon.name,
+                containerColor = Color.Transparent,
+                onImageLoaded = { bitmap ->
+                    scope.launch {
+                        val color = withContext(Dispatchers.Default) { extractDominantColor(bitmap) }
+                        dominantColor = color
+                    }
+                },
+                modifier = Modifier.size(200.dp),
             )
-            PokemonStats(stats = pokemon.stats, modifier = Modifier.fillMaxWidth())
-        }
-        if (!pokemon.typeEffectiveness.isEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = "Type effectiveness",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            TypeEffectivenessSection(
-                effectiveness = pokemon.typeEffectiveness,
-                modifier = Modifier.fillMaxWidth(),
-            )
+            Text(text = "#${pokemon.id}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = pokemon.name.capitalizeWords(), style = MaterialTheme.typography.titleLarge)
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                pokemon.types.forEach { type -> PokemonTypeChip(type) }
+            }
+            if (pokemon.stats.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "Base stats",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                PokemonStats(stats = pokemon.stats, modifier = Modifier.fillMaxWidth())
+            }
+            if (!pokemon.typeEffectiveness.isEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "Type effectiveness",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                TypeEffectivenessSection(
+                    effectiveness = pokemon.typeEffectiveness,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
     }
 }

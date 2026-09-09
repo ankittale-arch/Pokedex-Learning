@@ -126,8 +126,11 @@ private fun PokemonGrid(
         if (shouldLoadMore) onLoadMore()
     }
 
+    // Adaptive rather than a fixed count tied to the device's full screen width: on a tablet
+    // this grid is often only handed half the screen (see PokedexListDetailScreen), so the
+    // column count needs to react to the space actually available to it, not the whole display.
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Adaptive(minSize = 130.dp),
         state = gridState,
         modifier = modifier,
         contentPadding = PaddingValues(16.dp),
