@@ -74,3 +74,9 @@ Signing the release build requires four repo secrets (`RELEASE_KEYSTORE_BASE64`,
 build falls back to debug signing so the workflow still succeeds but the output must never
 be shipped.
 
+
+<img width="1080" height="2424" alt="Screenshot_20260910_165852" src="https://github.com/user-attachments/assets/d7f9d302-8b99-4b9f-be99-2094dbe6ff43" />
+<img width="1080" height="2424" alt="Screenshot_20260910_165843" src="https://github.com/user-attachments/assets/be5ae4df-aafd-434d-856f-bf8f959e2b87" />
+<img width="2560" height="1600" alt="Screenshot_20260910_165729" src="https://github.com/user-attachments/assets/2cb30d2d-e3cd-4d55-a0be-085468e77b51" />
+<img width="2560" height="1600" alt="Screenshot_20260910_165709" src="https://github.com/user-attachments/assets/62d1a335-3a18-4f09-835d-b1e5c3615709" />
+
