@@ -57,7 +57,20 @@ wraps every retrofit call in a sealed `ApiResponse` before it ever reaches `core
 Each repository interface also has a `Fake` implementation living next to it in `core:data`
 (no DB/network) for use in tests and Compose previews.
 
-<img width="344" height="769" alt="Home Screen" src="https://github.com/user-attachments/assets/fe6e0ac5-41c7-4f3f-b287-0f4a331dedf2" />
+## CI/CD
 
-<img width="344" height="769" alt="Detail Screen" src="https://github.com/user-attachments/assets/7243ed36-2f29-4929-8a52-16fd8fcce0a0" />
+Two GitHub Actions workflows live in `.github/workflows/`:
+
+- **CI** (`ci.yml`) - runs on every push to `master` and every pull request: Spotless
+  format check, unit tests, and a debug APK build/upload for smoke testing.
+- **Release** (`release.yml`) - tag-triggered: pushing a tag matching `v*.*.*` (e.g.
+  `v1.2.0`) builds a signed release APK + AAB and publishes them as a GitHub Release with
+  auto-generated release notes. It can also be run manually via `workflow_dispatch` to
+  produce a release or debug build without cutting a GitHub Release, which is useful for
+  verifying a signed build before shipping it.
+
+Signing the release build requires four repo secrets (`RELEASE_KEYSTORE_BASE64`,
+`RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`); without them the
+build falls back to debug signing so the workflow still succeeds but the output must never
+be shipped.
 
