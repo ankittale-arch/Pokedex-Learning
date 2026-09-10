@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.window)
 
     // Overrides Compose's transitive 1.0.1 constraint - see the version catalog comment.
     implementation(libs.androidx.graphics.path)
